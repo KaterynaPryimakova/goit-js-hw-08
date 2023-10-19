@@ -1,8 +1,32 @@
-const form = document.querySelector('.feedback-form');
-form.addEventListener('input', onInput);
+import throttle from 'lodash.throttle';
 
-function onInput(event) {
-  event.target.value;
+const form = document.querySelector('.feedback-form');
+form.addEventListener('input', throttle(onInput, 1000));
+
+const data = {
+  userEmail: '',
+  userMessage: '',
+};
+
+if (localStorage.length) {
+  const userData = JSON.parse(localStorage.getItem('feedback-form-state'));
+
+  if (userData.userEmail) {
+    const inputEmail = document.querySelector('input[name="email"]');
+    inputEmail.value = userData.userEmail;
+  }
+
+  if (userData.userMessage) {
+    const textareaMessage = document.querySelector('textarea[name="message"]');
+    textareaMessage.value = userData.userMessage;
+  }
 }
 
-// localStorage.setItem("feedback-form-state", JSON.stringify())
+function onInput({ target }) {
+  if (target.name === 'email') {
+    data.userEmail = target.value;
+  } else if (target.name === 'message') {
+    data.userMessage = target.value;
+  }
+  localStorage.setItem('feedback-form-state', JSON.stringify(data));
+}
