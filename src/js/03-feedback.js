@@ -30,6 +30,7 @@ function onInput({ target }) {
   }
   localStorage.setItem('feedback-form-state', JSON.stringify(data));
 }
+
 function clearForm(event) {
   event.preventDefault();
   const userData = JSON.parse(localStorage.getItem('feedback-form-state'));
