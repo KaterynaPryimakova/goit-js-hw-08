@@ -4,11 +4,6 @@ const form = document.querySelector('.feedback-form');
 form.addEventListener('input', throttle(onInput, 1000));
 form.addEventListener('submit', clearForm);
 
-const data = {
-  userEmail: '',
-  userMessage: '',
-};
-
 if (localStorage.getItem('feedback-form-state')) {
   const userData = JSON.parse(localStorage.getItem('feedback-form-state'));
   if (userData.userEmail) {
@@ -23,6 +18,10 @@ if (localStorage.getItem('feedback-form-state')) {
 }
 
 function onInput({ target }) {
+  let data = JSON.parse(localStorage.getItem('feedback-form-state')) || {
+    userEmail: '',
+    userMessage: '',
+  };
   if (target.name === 'email') {
     data.userEmail = target.value;
   } else if (target.name === 'message') {
